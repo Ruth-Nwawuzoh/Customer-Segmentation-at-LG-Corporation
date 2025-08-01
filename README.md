@@ -21,9 +21,9 @@ Follow the steps below to run the project on your local machine.
 ### 
 
 1. Clone the repository: 
-[https://github.com/Ruth-Nwawuzoh/HR-Model-Development-Project.git]
+[https://github.com/Ruth-Nwawuzoh/Customer-Segmentation-at-LG-Corporation.git]
 *or* unzip the file:  
-   `Ruth_Nwawuzoh_BAN6800_Module_4_Assignment.zip`
+   `Ruth_Nwawuzoh_BAN6800_Final_Project.zip`
 
 2. Open Lg_Segmentation_Analysis.ipynb in Jupyter Notebook, JupyterLab, or VSCode.
 
