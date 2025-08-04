@@ -8,7 +8,7 @@ app = Flask(__name__)
 def home():
     # Load clustered segmentation data
     df = pd.read_csv('segmentation_results.csv')
-    
+
     # Display first 20 rows in a basic HTML table
     html_table = df.head(20).to_html(classes='table table-striped', index=False)
 
@@ -17,12 +17,14 @@ def home():
     <html>
     <head>
         <title>LG Customer Segmentation</title>
-        https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     </head>
     <body class="p-4">
-        <h2>LG Customer Segmentation Results</h2>
-        <p>This table shows a sample of the clustered data (first 20 records).</p>
-        {html_table}
+        <div class="container">
+            <h2 class="mb-3">LG Customer Segmentation Results</h2>
+            <p>This table shows a sample of the clustered data (first 20 records).</p>
+            {html_table}
+        </div>
     </body>
     </html>
     '''
