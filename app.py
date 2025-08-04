@@ -25,6 +25,7 @@ def home():
     </body>
     </html>
     '''
+
     return render_template_string(html_template)
 
 if __name__ == '__main__':
