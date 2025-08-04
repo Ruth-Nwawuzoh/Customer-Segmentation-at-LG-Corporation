@@ -1,5 +1,6 @@
 from flask import Flask, render_template_string
 import pandas as pd
+import os
 
 app = Flask(__name__)
 
@@ -16,7 +17,7 @@ def home():
     <html>
     <head>
         <title>LG Customer Segmentation</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npmtstrap.min.css
     </head>
     <body class="p-4">
         <h2>LG Customer Segmentation Results</h2>
@@ -29,4 +30,5 @@ def home():
     return render_template_string(html_template)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)
