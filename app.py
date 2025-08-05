@@ -1,19 +1,27 @@
 from flask import Flask, request, jsonify, render_template_string
 import pandas as pd
 import numpy as np
-import joblib
+import pickle
 import os
+
+# Load the trained model and scaler
+with open("kmeans_model.pkl", "rb") as model_file:
+    kmeans = pickle.load(model_file)
+
+with open("scaler.pkl", "rb") as scaler_file:
+    scaler = pickle.load(scaler_file)
 
 app = Flask(__name__)
 
-# Load the trained model and scaler
-model = joblib.load("kmeans_model.pkl")
-scaler = joblib.load("scaler.pkl")
-
 @app.route('/')
 def home():
+    # Load clustered segmentation data
     df = pd.read_csv('segmentation_results.csv')
+
+    # Display first 20 rows in a basic HTML table
     html_table = df.head(20).to_html(classes='table table-striped', index=False)
+
+    # Simple HTML template to display the table
     html_template = f'''
     <html>
     <head>
@@ -34,14 +42,25 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
-        # Expect JSON with a list of features (e.g., [34, 1, 700, ...])
-        input_data = request.get_json(force=True)
-        input_array = np.array(input_data['features']).reshape(1, -1)
-        scaled_input = scaler.transform(input_array)
-        cluster = model.predict(scaled_input)
-        return jsonify({'predicted_cluster': int(cluster[0])})
+        # Get JSON input
+        input_data = request.get_json()
+
+        # Convert input to DataFrame
+        input_df = pd.DataFrame([input_data])
+
+        # Scale input data
+        input_scaled = scaler.transform(input_df)
+
+        # Predict cluster
+        prediction = kmeans.predict(input_scaled)
+
+        return jsonify({
+            "input": input_data,
+            "predicted_cluster": int(prediction[0])
+        })
+
     except Exception as e:
-        return jsonify({'error': str(e)}), 400
+        return jsonify({"error": str(e)}), 400
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
